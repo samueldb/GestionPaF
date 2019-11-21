@@ -1,0 +1,14 @@
+<p>parcelle-famille-list works!</p>
+<button class="btn btn-primary" (click)="onFetch()">Récupérer les parcelles</button>
+<button class="btn btn-primary" (click)="onSave()">Enregistrer les parcelles</button>
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let parcelle of parcellesFamille">
+      <h3>{{ parcelle.type }} {{ parcelle.id }}</h3>
+      <p>section : {{ parcelle.section }}</p>
+      <p>numero : {{ parcelle.numero }}</p>
+      <p *ngIf="parcelle.properties.length > 0">
+        Cette personne a des propriétés !
+        <span *ngFor="let prop of parcelle.properties">{{ prop }} - </span>
+      </p>
+    </li>
+  </ul>

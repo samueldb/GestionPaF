@@ -1,0 +1,10 @@
+<p>parcelles-publiques works!</p>
+<div
+  leaflet
+  style="height: 500px"
+  [leafletBaseLayers]="baseLayers"
+  [leafletOptions]="options"
+  (leafletMapReady)="onMapReady($event)"
+  (leafletClick)="onMapClick($event)"
+  (leafletMapZoomEnd)="onMapZoomEnd($event)"
+></div>
