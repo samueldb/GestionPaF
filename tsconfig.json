@@ -15,6 +15,7 @@
       "node_modules/@types",
       "node_modules/@leaflet",
       "node_modules/@leaflet-draw",
+      "node_modules/@leaflet-layer",
     ],
     "types":[
       "jquery",
