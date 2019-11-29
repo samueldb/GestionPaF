@@ -19,7 +19,11 @@ export class ParcelleFamilleService {
    }
 
    saveParcellesFamille() {
-      this.httpClient.post('https://fonciermontfort.firebaseio.com/parcellesFamille.json',
+      // this.getParcellesFamille();
+      for (let p of this.parcellesFamille){
+         p.newOrModified = false;
+      }
+      this.httpClient.put('https://fonciermontfort.firebaseio.com/parcellesFamille.json',
          this.parcellesFamille)
          .subscribe(
             () => {
@@ -33,7 +37,7 @@ export class ParcelleFamilleService {
 
    getParcellesFamille(){
       this.httpClient
-      .get<any[]>('https://fonciermontfort.firebaseio.com/parcellesFamille.json')
+      .get<ParcelleFamille[]>('https://fonciermontfort.firebaseio.com/parcellesFamille.json')
       .subscribe(
         (response) => {
           this.parcellesFamille = response;
@@ -43,6 +47,11 @@ export class ParcelleFamilleService {
             console.log('Erreur : ' + error);
           }
       )
+   }
+
+   deleteParcelleFamille(i: number){
+      this.parcellesFamille.splice(i, 1);
+      this.emitParcelleFamilleSubject();
    }
 
    getDefaultStyle() {

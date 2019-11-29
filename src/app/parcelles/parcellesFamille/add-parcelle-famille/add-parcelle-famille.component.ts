@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as L from 'leaflet';
+import * as D from 'leaflet-draw';
 import * as carto from '@carto/carto.js';
 import { FeuillesService } from 'src/app/services/feuilles.service';
 import { ParcelleFamilleService } from 'src/app/services/parcelleFamille.service';
@@ -33,6 +34,7 @@ export class AddParcelleFamilleComponent implements OnInit, OnDestroy {
   parcellesFamille: any[];
   parcellesFamilleSubscription: Subscription;
 
+
   constructor(private formBuilder: FormBuilder,
     private parcellePubliqueService: ParcellePubliqueService,
     private parcelleFamilleService: ParcelleFamilleService,
@@ -42,14 +44,14 @@ export class AddParcelleFamilleComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    this.initForm();
+    this.initMap();
     this.parcellesFamilleSubscription = this.parcelleFamilleService.parcelleFamilleSubject.subscribe(
       (parcelles: ParcelleFamille[]) => {
         this.parcellesFamille = parcelles;
       }
     );
     this.parcelleFamilleService.emitParcelleFamilleSubject();
-    this.initForm();
-    this.initMap();
   }
 
   ngOnDestroy(){
@@ -95,13 +97,17 @@ export class AddParcelleFamilleComponent implements OnInit, OnDestroy {
 
     this.cartoLayer = new carto.layer.Layer(layerSource, layerStyle,
       {
-        featureClickColumns: ['section', 'numero']
+        featureClickColumns: ['section', 'numero', 'contenance']
       }
     );
     this.cartoLayer.on('featureClicked', featEvent => {
       console.log("clicked on : " + featEvent.data.numero);
+      this.parcelleFamilleForm.controls['numero'].setValue(featEvent.data.numero);
+      // let el: HTMLElement = this.parcelleFamilleForm.controls['numero'];
+      // el.blur();
+      this.onBlurNumeroMethod();
     })
-    // this.cartoLayer.hide();
+    this.cartoLayer.hide();
     this.cartoClient.addLayer(this.cartoLayer, {
       minZoom: 17
     });
@@ -121,11 +127,7 @@ export class AddParcelleFamilleComponent implements OnInit, OnDestroy {
       // "parcellesCarto": this.cartoClient.getLayers()
     }
 
-    // this.cartoClient.getLeafletLayer().addTo(this.OverlayMaps);
-
     this.cartoClient.getLeafletLayer().addTo(this.map);
-    // this.controller = L.control.layers(baseLayers, this.OverlayMaps).addTo(this.map);
-    // this.controller.addOverlay(this.cartoClient.getLeafletLayer(), "parcellesCarto");
   }
 
   private AddParcellesPubliquesLayer() {
@@ -214,8 +216,8 @@ export class AddParcelleFamilleComponent implements OnInit, OnDestroy {
     this.cartoLayer.hide();
     this.parcelleFamilleForm.controls["feuilleName"].reset();
     this.parcelleFamilleForm.controls["numero"].reset();
-    this.sectionsLayerGroup.eachLayer(function (grouplayer) {
-      grouplayer.eachLayer(function (layer) {
+    this.sectionsLayerGroup.eachLayer(function (glayer) {
+      glayer.eachLayer(function (layer) {
         if (typeof (layer.feature) != 'undefined') {
           if (layer.feature.properties.code == givenSection) {
             match = layer.getBounds();
@@ -306,11 +308,14 @@ export class AddParcelleFamilleComponent implements OnInit, OnDestroy {
                                 selectedFeature["id"], 
                                 "parcelle", 
                                 selectedFeature["geometry"], 
-                                '', 
+                                true,
+                                selectedFeature.properties["contenance"],
                                 section, 
                                 feuille, 
                                 numero);
     this.parcelleFamilleService.addParcelleFamille(newParcelle);
+    this.router.navigate(['/parcelleFamilleList']);
+
   }
 
   getGeoJsonFromCarto(section: string, numero: number) {

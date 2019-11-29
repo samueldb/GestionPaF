@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ParcelleFamilleService } from 'src/app/services/parcelleFamille.service';
 import { ParcelleFamille } from 'src/app/models/ParcelleFamille.model';
 import { Subscription } from 'rxjs';
@@ -8,8 +8,10 @@ import { Subscription } from 'rxjs';
   templateUrl: './parcelle-famille-list.component.html',
   styleUrls: ['./parcelle-famille-list.component.css']
 })
+
 export class ParcelleFamilleListComponent implements OnInit, OnDestroy {
 
+  @Input() index: number;
   parcellesFamille: ParcelleFamille[] = [];
   parcelleFamilleSubscription: Subscription;
 
@@ -21,7 +23,7 @@ export class ParcelleFamilleListComponent implements OnInit, OnDestroy {
         this.parcellesFamille = parcellesFamille;
       }
       )
-    // this.parcelleService.emitParcelleFamilleSubject();
+    this.parcelleService.emitParcelleFamilleSubject();
   }
 
   ngOnDestroy(){
@@ -29,10 +31,26 @@ export class ParcelleFamilleListComponent implements OnInit, OnDestroy {
   }
 
   onFetch(){
+    console.log("fetching features");
     this.parcelleService.getParcellesFamille();
   }
 
   onSave(){
     this.parcelleService.saveParcellesFamille();
+  }
+
+  onDeleteParcelle(p: ParcelleFamille){
+    var index = this.parcellesFamille.indexOf(p);
+    this.parcelleService.deleteParcelleFamille(index);
+  }
+
+  getColor(p: ParcelleFamille){
+    var index = this.parcellesFamille.indexOf(p);
+    if (this.parcellesFamille[index].newOrModified){
+      return 'blue';
+    }
+    else{
+      return 'grey';
+    }
   }
 }

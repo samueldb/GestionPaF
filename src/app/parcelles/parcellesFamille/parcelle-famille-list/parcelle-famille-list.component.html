@@ -1,14 +1,19 @@
-<p>parcelle-famille-list works!</p>
-<button class="btn btn-primary" (click)="onFetch()">Récupérer les parcelles</button>
-<button class="btn btn-primary" (click)="onSave()">Enregistrer les parcelles</button>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+
+<app-parcelles-publiques></app-parcelles-publiques>
+<button class="btn btn-primary" (click)="onFetch()">Récupérer les parcelles enregistrées</button>
+<button class="btn btn-primary" (click)="onSave()">Enregistrer les nouvelles parcelles</button>
 <ul class="list-group">
-    <li class="list-group-item" *ngFor="let parcelle of parcellesFamille">
-      <h3>{{ parcelle.type }} {{ parcelle.id }}</h3>
-      <p>section : {{ parcelle.section }}</p>
-      <p>numero : {{ parcelle.numero }}</p>
-      <p *ngIf="parcelle.properties.length > 0">
-        Cette personne a des propriétés !
-        <span *ngFor="let prop of parcelle.properties">{{ prop }} - </span>
-      </p>
-    </li>
-  </ul>
+  <li class="list-group-item"
+      *ngFor="let parcelle of parcellesFamille;"
+      [ngStyle]="{border: getColor(parcelle)}">
+    <h3>{{ parcelle.type }} {{ parcelle.id }} <span *ngIf="parcelle.newOrModified" class="badge badge-success">New</span></h3>
+
+      <span class="btn btn-xs btn-danger" style="float:right" (click)="onDeleteParcelle(parcelle)">Supprimer</span>
+    <p>section : {{ parcelle.section }}</p>
+    <p>numero : {{ parcelle.numero }}</p>
+    <p *ngIf=" parcelle.contenance > 0">
+      surface : {{ parcelle.contenance }} m²
+    </p>
+  </li>
+</ul>

@@ -5,7 +5,8 @@ export class ParcelleFamille{
         public id: string,
         public type: string,
         public geometry: string,
-        public properties: string,
+        public newOrModified: boolean,
+        public contenance: number,
         public section,
         public feuille,
         public numero

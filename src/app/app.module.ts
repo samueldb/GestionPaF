@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ParcellesPubliquesComponent } from './parcelles/parcelles-publiques/parcelles-publiques.component';
 import { HttpClientModule } from "@angular/common/http";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
+import * as L from "leaflet";
 import { ParcellePubliqueService } from './services/parcellepublique.service';
 import { AddParcelleFamilleComponent } from './parcelles/parcellesFamille/add-parcelle-famille/add-parcelle-famille.component';
 import { ParcelleFamilleService } from './services/parcelleFamille.service';

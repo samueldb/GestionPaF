@@ -81,16 +81,12 @@ export class ParcellesPubliquesComponent {
   }
 
   onEachFeature(feature, layer) {
-    // does this feature have a property named popupContent?
     var popUpText = "<b>Section :</b> " + feature.properties.section +
       "<br><b>Numéro :</b> " + feature.properties.numero;
     layer.bindPopup(popUpText, {
       closeButton: true
     });
     layer.on('click', layer.openPopup());
-    // console.log("feature : " + feature.properties.numero);
-    // bindTooltip is very slow with the parcels. Comment for now. 
-    // layer.bindTooltip(feature.properties.numero, { permanent: true, direction: "center", opacity: 0.5 }).openTooltip();
     
   }
 
