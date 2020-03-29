@@ -124,7 +124,7 @@ export class AddParcelleFamilleComponent implements OnInit, OnDestroy {
       "sections": this.sectionsLayerGroup,
       "feuilles": this.feuillesLayerGroup,
       "parcelles": this.parcellesPubliquesLayerGroup,
-      // "parcellesCarto": this.cartoClient.getLayers()
+      "parcellesCarto": this.cartoClient.getLayers()
     }
 
     this.cartoClient.getLeafletLayer().addTo(this.map);

@@ -3,8 +3,8 @@
   "compilerOptions": {
     "outDir": "./out-tsc/app",
     "types": [
-      "leaflet",
       "leaflet-draw",
+      "leaflet",
       "carto"
     ]
   },

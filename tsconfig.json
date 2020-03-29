@@ -10,12 +10,12 @@
     "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2015",
+    "target": "es2018",
     "typeRoots": [
       "node_modules/@types",
       "node_modules/@leaflet",
-      "node_modules/@leaflet-draw",
       "node_modules/@leaflet-layer",
+      "node_modules/@leaflet-draw",
     ],
     "types":[
       "jquery",

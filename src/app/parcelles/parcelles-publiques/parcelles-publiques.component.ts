@@ -28,7 +28,9 @@ export class ParcellesPubliquesComponent {
   baseLayers = [L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     { maxZoom: 20, attribution: '&copy; OpenStreetMap contributors ' })]
 
+    
   constructor(private http: HttpClient, private parcellesPubliquesService: ParcellePubliqueService) { }
+
 
   onMapReady(map: L.Map) {
     this.map = map;
